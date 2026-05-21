@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
-import { EASE } from "@/lib/motion";
+import { motion, type Variants } from "motion/react";
 
 const cards = [
   {
@@ -46,12 +45,12 @@ const cards = [
   },
 ];
 
-const item = {
+const item: Variants = {
   hidden: { opacity: 0, y: 26 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
 };
 
-const container = {
+const container: Variants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
 };

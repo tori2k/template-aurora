@@ -2,7 +2,6 @@
 
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
-import { EASE } from "@/lib/motion";
 import MagneticButton from "./MagneticButton";
 
 const TITLE = ["AI", "infra,", "without", "the", "infra."];
@@ -29,7 +28,7 @@ export default function Hero() {
           href="#changelog"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: EASE }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className="inline-flex items-center gap-2.5 px-1 pr-4 py-1 rounded-full border border-border bg-background/50 backdrop-blur-md
                      text-[12.5px] text-muted hover:text-foreground hover:border-aurora-cyan/60 transition-colors group"
         >
@@ -48,7 +47,7 @@ export default function Hero() {
               <motion.span
                 initial={{ y: "110%" }}
                 animate={{ y: "0%" }}
-                transition={{ delay: 0.15 + i * 0.07, duration: 0.85, ease: EASE }}
+                transition={{ delay: 0.15 + i * 0.07, duration: 0.85, ease: "easeOut" }}
                 className={
                   word === "without"
                     ? "inline-block aurora-text italic font-medium"
@@ -65,7 +64,7 @@ export default function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.7, ease: EASE }}
+            transition={{ delay: 0.7, duration: 0.7, ease: "easeOut" }}
             className="text-[clamp(15px,1.4vw,18px)] text-muted leading-[1.65] max-w-[480px]"
           >
             Edge-нативный рантайм для LLM-агентов, веб-приложений
@@ -76,7 +75,7 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.85, duration: 0.7, ease: EASE }}
+            transition={{ delay: 0.85, duration: 0.7, ease: "easeOut" }}
             className="flex flex-wrap items-center gap-3"
           >
             <MagneticButton href="#contact" variant="primary">
@@ -93,7 +92,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.0, duration: 0.7, ease: EASE }}
+          transition={{ delay: 1.0, duration: 0.7, ease: "easeOut" }}
           className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-px overflow-hidden rounded-2xl border border-border bg-border/60"
         >
           {[

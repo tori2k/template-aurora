@@ -2,7 +2,6 @@
 
 import { motion } from "motion/react";
 import MagneticButton from "./MagneticButton";
-import { EASE } from "@/lib/motion";
 
 export default function CTA() {
   return (
@@ -17,7 +16,7 @@ export default function CTA() {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.9, ease: EASE }}
+        transition={{ duration: 0.9, ease: "easeOut" }}
         className="relative max-w-[1100px] mx-auto px-6 lg:px-10 text-center"
       >
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-aurora-cyan/40 bg-aurora-cyan/5 backdrop-blur text-[11px] font-mono uppercase tracking-[0.18em] text-aurora-cyan">
