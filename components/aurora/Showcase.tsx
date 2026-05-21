@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
 import { useRef } from "react";
 
 const steps = [
@@ -41,6 +41,65 @@ ORDER BY count(*) DESC;`,
   },
 ];
 
+function clamp01(v: number) {
+  return Math.max(0, Math.min(1, v));
+}
+
+function range(i: number, total: number) {
+  // chunk: [start..end] for step i, padding to avoid <0 / >1
+  const start = clamp01(i / total);
+  const end = clamp01((i + 1) / total);
+  const pad = 0.04;
+  return {
+    fadeIn:  [Math.max(0, start - pad), start + pad] as [number, number],
+    fadeOut: [Math.max(start, end - pad), end] as [number, number],
+    visible: [start, start + pad, end - pad, end] as [number, number, number, number],
+  };
+}
+
+interface StepRowProps {
+  step: typeof steps[number];
+  i: number;
+  total: number;
+  progress: MotionValue<number>;
+}
+
+function StepRow({ step, i, total, progress }: StepRowProps) {
+  const r = range(i, total);
+  const opacity = useTransform(progress, r.visible, [0.3, 1, 1, 0.3]);
+  const x = useTransform(progress, r.fadeIn, [-12, 0]);
+  return (
+    <motion.li style={{ opacity, x }} className="flex gap-5">
+      <div className="font-mono text-[12px] text-aurora-cyan tracking-[0.15em] pt-1">{step.n}</div>
+      <div>
+        <h3 className="text-[22px] font-semibold tracking-[-0.01em]">{step.title}</h3>
+        <p className="mt-2 text-[14.5px] text-muted leading-[1.65] max-w-[420px]">{step.desc}</p>
+      </div>
+    </motion.li>
+  );
+}
+
+interface CodePaneProps {
+  step: typeof steps[number];
+  i: number;
+  total: number;
+  progress: MotionValue<number>;
+}
+
+function CodePane({ step, i, total, progress }: CodePaneProps) {
+  const r = range(i, total);
+  const opacity = useTransform(progress, r.visible, [0, 1, 1, 0]);
+  const y = useTransform(progress, r.fadeIn, [12, 0]);
+  return (
+    <motion.pre
+      style={{ opacity, y }}
+      className="absolute inset-0 m-0 p-6 font-mono text-[13px] leading-[1.7] text-foreground/90 whitespace-pre"
+    >
+      {step.code}
+    </motion.pre>
+  );
+}
+
 export default function Showcase() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
@@ -64,26 +123,12 @@ export default function Showcase() {
           </div>
 
           <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-12 lg:gap-20 items-start">
-            {/* steps timeline (left) */}
             <ol className="space-y-4">
-              {steps.map((s, i) => {
-                const start = i / steps.length;
-                const end = (i + 1) / steps.length;
-                const opacity = useTransform(scrollYProgress, [start, start + 0.05, end - 0.05, end], [0.3, 1, 1, 0.3]);
-                const x = useTransform(scrollYProgress, [start, start + 0.05], [-12, 0]);
-                return (
-                  <motion.li key={s.n} style={{ opacity, x }} className="flex gap-5">
-                    <div className="font-mono text-[12px] text-aurora-cyan tracking-[0.15em] pt-1">{s.n}</div>
-                    <div>
-                      <h3 className="text-[22px] font-semibold tracking-[-0.01em]">{s.title}</h3>
-                      <p className="mt-2 text-[14.5px] text-muted leading-[1.65] max-w-[420px]">{s.desc}</p>
-                    </div>
-                  </motion.li>
-                );
-              })}
+              {steps.map((s, i) => (
+                <StepRow key={s.n} step={s} i={i} total={steps.length} progress={scrollYProgress} />
+              ))}
             </ol>
 
-            {/* code window (right) */}
             <div className="relative">
               <div className="absolute -inset-8 bg-gradient-to-br from-aurora-cyan/20 via-transparent to-aurora-violet/20 blur-3xl opacity-60 pointer-events-none" />
               <div className="relative rounded-2xl border border-border/80 bg-background/85 backdrop-blur-xl overflow-hidden shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)]">
@@ -94,25 +139,9 @@ export default function Showcase() {
                   <span className="ml-3 font-mono text-[11.5px] text-muted tracking-[0.04em]">aurora.dev / hello.ts</span>
                 </div>
                 <div className="relative h-[360px] overflow-hidden">
-                  {steps.map((s, i) => {
-                    const start = i / steps.length;
-                    const end = (i + 1) / steps.length;
-                    const opacity = useTransform(
-                      scrollYProgress,
-                      [start - 0.04, start + 0.04, end - 0.04, end + 0.04],
-                      [0, 1, 1, 0],
-                    );
-                    const y = useTransform(scrollYProgress, [start, start + 0.05], [12, 0]);
-                    return (
-                      <motion.pre
-                        key={i}
-                        style={{ opacity, y }}
-                        className="absolute inset-0 m-0 p-6 font-mono text-[13px] leading-[1.7] text-foreground/90 whitespace-pre"
-                      >
-                        {s.code}
-                      </motion.pre>
-                    );
-                  })}
+                  {steps.map((s, i) => (
+                    <CodePane key={i} step={s} i={i} total={steps.length} progress={scrollYProgress} />
+                  ))}
                 </div>
                 <div className="px-4 py-3 border-t border-border bg-background-2/50 flex items-center gap-3 font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-2">
                   <span className="inline-flex w-1.5 h-1.5 rounded-full bg-aurora-mint animate-pulse" />
