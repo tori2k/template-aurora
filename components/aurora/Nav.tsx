@@ -41,7 +41,7 @@ export default function Nav() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <a href="#signin" className="hidden md:inline-flex text-[13.5px] text-muted hover:text-foreground transition">
+            <a href="#contact" className="hidden md:inline-flex text-[13.5px] text-muted hover:text-foreground transition">
               Войти
             </a>
             <a

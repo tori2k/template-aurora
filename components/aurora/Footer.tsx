@@ -20,9 +20,33 @@ export default function Footer() {
           </div>
 
           {[
-            { title: "Платформа", links: ["Runtime", "Observability", "Agents SDK", "Self-hosted"] },
-            { title: "Ресурсы", links: ["Документация", "Changelog", "Blog", "GitHub"] },
-            { title: "Компания", links: ["О нас", "Карьера", "Контакты", "Press kit"] },
+            {
+              title: "Платформа",
+              links: [
+                { label: "Runtime", href: "#features" },
+                { label: "Observability", href: "#features" },
+                { label: "Agents SDK", href: "#features" },
+                { label: "Self-hosted", href: "#contact" },
+              ],
+            },
+            {
+              title: "Ресурсы",
+              links: [
+                { label: "Документация", href: "#showcase" },
+                { label: "Changelog", href: "#features" },
+                { label: "Blog", href: "#features" },
+                { label: "GitHub", href: "#contact" },
+              ],
+            },
+            {
+              title: "Компания",
+              links: [
+                { label: "О нас", href: "#features" },
+                { label: "Карьера", href: "#contact" },
+                { label: "Контакты", href: "#contact" },
+                { label: "Press kit", href: "#contact" },
+              ],
+            },
           ].map((col) => (
             <div key={col.title}>
               <div className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-aurora-cyan mb-4">
@@ -30,9 +54,9 @@ export default function Footer() {
               </div>
               <ul className="space-y-2.5">
                 {col.links.map((l) => (
-                  <li key={l}>
-                    <a href="#" className="text-[13.5px] text-muted hover:text-foreground transition-colors">
-                      {l}
+                  <li key={l.label}>
+                    <a href={l.href} className="text-[13.5px] text-muted hover:text-foreground transition-colors">
+                      {l.label}
                     </a>
                   </li>
                 ))}

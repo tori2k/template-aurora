@@ -36,11 +36,11 @@ export default function CTA() {
         </p>
 
         <div className="mt-10 flex flex-wrap justify-center items-center gap-3">
-          <MagneticButton href="#signup" variant="primary">
+          <MagneticButton href="#contact" variant="primary">
             <span>Создать аккаунт</span>
             <span aria-hidden>→</span>
           </MagneticButton>
-          <MagneticButton href="#docs" variant="ghost">
+          <MagneticButton href="#features" variant="ghost">
             <span className="font-mono text-[12.5px]">Документация</span>
           </MagneticButton>
         </div>

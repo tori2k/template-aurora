@@ -25,7 +25,7 @@ export default function Hero() {
       <div className="relative z-10 max-w-[1280px] mx-auto px-6 lg:px-10 pt-16 lg:pt-24">
         {/* announcement pill */}
         <motion.a
-          href="#changelog"
+          href="#features"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
@@ -41,9 +41,12 @@ export default function Hero() {
         </motion.a>
 
         {/* headline */}
-        <h1 className="mt-7 text-[clamp(46px,8vw,108px)] leading-[0.96] tracking-[-0.04em] font-semibold max-w-[15ch]">
+        <h1
+          aria-label={TITLE.join(" ")}
+          className="mt-7 text-[clamp(46px,8vw,108px)] leading-[0.96] tracking-[-0.04em] font-semibold max-w-[15ch]"
+        >
           {TITLE.map((word, i) => (
-            <span key={i} className="inline-block overflow-hidden align-bottom mr-[0.18em]">
+            <span key={i} aria-hidden="true" className="inline-block overflow-hidden align-bottom mr-[0.18em]">
               <motion.span
                 initial={{ y: "110%" }}
                 animate={{ y: "0%" }}
@@ -82,7 +85,7 @@ export default function Hero() {
               <span>Запустить демо</span>
               <span aria-hidden>→</span>
             </MagneticButton>
-            <MagneticButton href="#docs" variant="ghost">
+            <MagneticButton href="#showcase" variant="ghost">
               <span className="font-mono text-[12.5px]">{`$ npx aurora init`}</span>
             </MagneticButton>
           </motion.div>
